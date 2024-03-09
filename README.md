@@ -9,7 +9,7 @@ Para esta POC foi criada uma aplicação em Angular e adicionado o Angular Mater
 Para instalar a lib e demais pacotes necessários, execute o comando:
 
 ```bash
-npm install --save-dev semantic-release @semantic-release/git
+npm install --save-dev semantic-release @semantic-release/git @semantic-release/changelog
 ```
 
 ## Configuração
@@ -22,11 +22,12 @@ module.exports = {
     plugins: [
         "@semantic-release/commit-analyzer",
         "@semantic-release/release-notes-generator",
+        "@semantic-release/changelog",
         "@semantic-release/github",
         [
             "@semantic-release/git",
             {
-                assets: ["package.json", "package-lock.json"],
+                assets: ["CHANGELOG.md", "package.json", "package-lock.json"],
                 message: "docs: packages atualizados para versão ${nextRelease.version}",
             },
         ],
