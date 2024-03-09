@@ -1,27 +1,44 @@
-# Release
+# Teste da lib semantic-release
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.2.
+Esta é uma prova de conceito para testar a lib `semantic-release` que automatiza o versionamento semântico - [SemVer](https://semver.org) - da aplicação.
 
-## Development server
+Para esta POC foi criada uma aplicação em Angular e adicionado o Angular Material.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Instalação
 
-## Code scaffolding
+Para instalar a lib e demais pacotes necessários, execute o comando:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+npm install --save-dev semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/npm
+```
 
-## Build
+## Configuração
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Crie o arquivo `.releaserc.js` na raiz do projeto com o seguinte conteúdo e depois o adicione ao `.gitignore`:
 
-## Running unit tests
+```javascript
+module.exports = {
+    branches: ["main"],
+    plugins: ["@semantic-release/commit-analyzer", "@semantic-release/release-notes-generator", ["@semantic-release/npm", { npmPublish: false }], "@semantic-release/github"],
+    verifyConditions: ["@semantic-release/npm", "@semantic-release/github"],
+    publish: ["@semantic-release/github"],
+    repositoryUrl: "https://github.com/ortegavan/release.git",
+    githubToken: "[SEU TOKEN]",
+};
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Altere as propriedades de acordo com o seu projeto. No exemplo, a aplicação está sendo publicada no GitHub pulando a etapa de publicação de pacotes no npm.
 
-## Running end-to-end tests
+## Execução
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Para executar o `semantic-release` execute o comando:
 
-## Further help
+```bash
+npx semantic-release --no-ci
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Em ambiente de desenvolvimento, foi necessário fornecer o token do GitHub para que a lib possa publicar a release. Para isso, execute o comando:
+
+```bash
+GH_TOKEN=[SEU TOKEN] npx semantic-release --no-ci
+```
